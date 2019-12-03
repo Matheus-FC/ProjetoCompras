@@ -1,2 +1,4 @@
-# CompraMercadorias
-Sistema Web para comprar de mercadorias,onde o controle de estoque deve estar atrelado ao sistema de compra.
+# Projeto-Web-Java
+Projeto de web de Lab de eng de software
+
+Estoque e controle de fluxo de caixa

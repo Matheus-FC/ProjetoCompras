@@ -1,116 +1,105 @@
 <%@ taglib uri ="http://java.sun.com/jsp/jstl/core" prefix = "c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import ="model.Produto"%>
+<%@page import ="java.util.List"%>
 
-<head>
-    <title>Gerenciamento de Estoque</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        table, th, td{
-        border: 1px solid black;
-        font-family: 'Courier New', Courier, monospace;
-        }
-        label{
-            padding: 10px;
-            text-align: center;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .content {
-            max-width: 500px;
-            margin: auto;
-        }
-    </style>
-</head>
-<div class='content'>
-<div>
-    <div>
-        <div>
-        <a href='mercadoria'>
-            <label> Mercadorias </label>
-        </a>
-        <a href='estoque'>
-            <label> Estoque </label>
-        </a>
-    </div>
-</div>
-<div>
-    <div>
-        <div>
-        <a href='estoque'>
-            <label> Gerenciamento </label>
-        </a>
-        <a href='cadastrar'>
-            <label>  Alteração e Cadastro </label>
-        </a>
-        <a href='relatorioestoque'>
-            <label> Relatório </label>
-        </a>
-    </div>
-</div>
-<div>
-    <div>
-        <label>Pesquisa </label>
-        <input type='number' placeholder="Código da mercadoria" min='0'>
-        <button type='button'> 
-            <label>Pesquisar </label>
-        </button>
-    </div>
-</div>
-<div>
-    <table>
-        <tr>
-            <th> Código</th>
-            <th> Nome</th>
-            <th> Marca</th>
-            <th> Unidade</th>
-            <th> Preço R$</th>
-            <th> Quantidade no Estoque</th>
-            <th> Descrição</th>
-        </tr>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Estoque </title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/> 
+		<link rel="stylesheet"  href="static/css/estilos.css"/>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="html-table-search.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('table.steelBlueCols').tableSearch({
+					searchText:'Search Table',
+					searchPlaceHolder:'Input Value'
+				});
+			});
+		</script>
+	</head>		
+	<body>
+		<table class="tabelaEstoque">
+			<tr class="font">
+				<td><a href="home"> Compra/Busca </a></td>
+				<td><a href="estoque"> Estoque </a></td>
+			</tr>
+		</table>
+			<h2 class="title is-2"> Estoque </h2>
+		<div>
+			<table class="steelBlueCols">
+				<tr>
+					<th>ID</th>
+					<th>Produto</th>
+					<th>Marca</th>
+					<th>Quantidade</th>
+					<th>Preço</th>
+					<th>Unidade</th>
+					<th colspan="2">Descrição</th>
+				</tr>
 
-        <tr>
-            <td> 1</td>
-                <td> Camisa</td>
-                <td> ArtRock</td>
-                <td> NaA</td>
-                <td> 20</td>
-                <td> 20 </td>
-                <td> Camiseta</td>
-            <td>
-                <button>
-                    <a href='atualizar'>
-                        <label> Alterar </label>
-                    </a>
-                </button>
-            </td>
-            <td>
-                <button>
-                    <label> Excluir </label>
-                </button>
-            </td>
-        </tr>
+ 			<% 
+ 				List<Produto> produtos = (List)request.getAttribute("produtos");
+                for(Produto p: produtos){
+                	out.print("<tr>");
+                	out.print("<td>" + p.getId() + "</td>");
+					out.print("<td>" + p.getNome() + "</td>");
+					out.print("<td>" + p.getMarca() + "</td>");
+                	out.print("<td>" + p.getQuantidade() + "</td>");
+                	out.print("<td>" + p.getPreco() + "</td>");
+                	out.print("<td>" + p.getUnidade() + "</td>");
+                	out.print("<td>" + p.getDescricao() + "</td>");
+                	out.print("<td> <button id='editar' class='editar' onclick=openModal('modalId',"+p.getId()+") value='editar'> Editar </button> </td>");
+                	out.print("<td> <button id='remover' class='remover' onclick=remover("+p.getId()+") value='remover'> Excluir </button> </td>");
+                	out.print("</tr>");
+                }%>
+			</table>
+		</div>
 
-        <tr>
-            <td> 1</td>
-            <td> 2</td>
-                <td> Arroz</td>
-                <td> Saboroso</td>
-                <td> 10 </td>
-                <td> 13</td>
-                <td> Pacote de Arroz</td>
-            <td>
-                <button>
-                    <a href='atualizar'>
-                        <label> Alterar </label>
-                    </a>
-                </button>
-            </td>
-            <td>
-                <button>
-                    <label> Excluir </label>
-                </button>
-            </td>
-        </tr>
-    </table>
-</div>
-</div>
+		<div>
+			<button id="addProd" class="confirmar" onclick="window.location.href = 'AddProduto';">Adicionar Produto</button>
+		</div>
+
+
+	<div id="modalId" class="modal">
+		<div class="modal-background"></div>
+		<div class="modal-card">
+    		<header class="modal-card-head">
+      			<p class="modal-card-title">Editar</p>
+      			<button class="delete" onclick="closeModal('modalId')" aria-label="close"></button>
+    		</header>
+    		<section class="modal-card-body">
+    			<div class="field">
+    				<div class="control">
+    					<form action="Update.action" method="get">
+							<label class="label">ID</label>
+							<input id="prodId" class="input" type="number" name="id"  readonly>
+							<label class="label">Produto</label>
+							<input id="nome" class="input" type="text" name="produto">
+							<label class="label">Marca</label>
+							<input id="marca" class="input" type="text" name="marca">
+							<label class="label">Quantidade</label>
+							<input id="quantidade" class="input" type="number" name="quantidade">
+							<label class="label">Unidade</label>
+							<input id="unidade" class="input" type="text" name="unidade">
+							<label class="label">Preço</label>
+							<input id="preco" class="input" type="number" step=0.01 name="preco">
+							<label class="label">Descrição</label>
+							<input id="desc" class="input" type="text" name="descricao">
+					</div>
+				</div>
+    		</section>
+    		<footer class="modal-card-foot">
+    			<input type="submit" class="aceitar" value="Atualizar">
+      			<button class="remover">Cancelar</button>
+				</form>
+    		</footer>
+	 		</div>
+	</div>
+	<script src="<%=request.getContextPath()%>/js/Methods.js"></script> 
+	</body>
+</html>
+

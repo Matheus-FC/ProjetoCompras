@@ -1,21 +1,5 @@
 #!/usr/bin/env sh
 
-#
-# Copyright 2015 the original author or authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
 ##############################################################################
 ##
 ##  Projeto start up script for UN*X
@@ -80,7 +64,7 @@ case "`uname`" in
     ;;
 esac
 
-CLASSPATH=$APP_HOME/lib/Projeto.jar:$APP_HOME/lib/javax.servlet-api-3.1.0.jar:$APP_HOME/lib/jstl-1.2.jar:$APP_HOME/lib/hibernate-core-5.3.7.Final.jar:$APP_HOME/lib/mariadb-java-client-2.2.0.jar:$APP_HOME/lib/hibernate-commons-annotations-5.0.4.Final.jar:$APP_HOME/lib/jboss-logging-3.3.2.Final.jar:$APP_HOME/lib/javax.persistence-api-2.2.jar:$APP_HOME/lib/javassist-3.23.1-GA.jar:$APP_HOME/lib/byte-buddy-1.8.17.jar:$APP_HOME/lib/antlr-2.7.7.jar:$APP_HOME/lib/jboss-transaction-api_1.2_spec-1.1.1.Final.jar:$APP_HOME/lib/jandex-2.0.5.Final.jar:$APP_HOME/lib/classmate-1.3.4.jar:$APP_HOME/lib/javax.activation-api-1.2.0.jar:$APP_HOME/lib/dom4j-2.1.1.jar
+CLASSPATH=$APP_HOME/lib/Projeto.jar:$APP_HOME/lib/javax.servlet-api-3.1.0.jar:$APP_HOME/lib/jstl-1.2.jar:$APP_HOME/lib/hibernate-core-5.3.7.Final.jar:$APP_HOME/lib/mariadb-java-client-2.2.0.jar:$APP_HOME/lib/gson-2.8.6.jar:$APP_HOME/lib/hibernate-commons-annotations-5.0.4.Final.jar:$APP_HOME/lib/jboss-logging-3.3.2.Final.jar:$APP_HOME/lib/javax.persistence-api-2.2.jar:$APP_HOME/lib/javassist-3.23.1-GA.jar:$APP_HOME/lib/byte-buddy-1.8.17.jar:$APP_HOME/lib/antlr-2.7.7.jar:$APP_HOME/lib/jboss-transaction-api_1.2_spec-1.1.1.Final.jar:$APP_HOME/lib/jandex-2.0.5.Final.jar:$APP_HOME/lib/classmate-1.3.4.jar:$APP_HOME/lib/javax.activation-api-1.2.0.jar:$APP_HOME/lib/dom4j-2.1.1.jar
 
 # Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
@@ -125,8 +109,8 @@ if $darwin; then
     GRADLE_OPTS="$GRADLE_OPTS \"-Xdock:name=$APP_NAME\" \"-Xdock:icon=$APP_HOME/media/gradle.icns\""
 fi
 
-# For Cygwin or MSYS, switch paths to Windows format before running java
-if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
+# For Cygwin, switch paths to Windows format before running java
+if $cygwin ; then
     APP_HOME=`cygpath --path --mixed "$APP_HOME"`
     CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
     JAVACMD=`cygpath --unix "$JAVACMD"`
